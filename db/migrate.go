@@ -7,5 +7,6 @@ func Migrate() {
 		&models.User{},
 		&models.UserProfile{},
 		&models.UserKeyPair{},
+		&models.UserInbox{},
 	)
 }

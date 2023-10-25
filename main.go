@@ -11,6 +11,9 @@ import (
 func main() {
 	constants.LoadEnv()
 	db.Connect()
+	if constants.DB_MIGRATE == "true" {
+		db.Migrate()
+	}
 
 	app := fiber.New()
 

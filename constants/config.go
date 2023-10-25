@@ -10,6 +10,7 @@ var (
 	ENV  = "local"
 	PORT = ""
 
+	DB_MIGRATE  = ""
 	DB_TYPE     = ""
 	DB_HOST     = ""
 	DB_PORT     = ""
@@ -44,6 +45,7 @@ func setEnv() {
 	ENV = os.Getenv("ENV")
 	PORT = os.Getenv("PORT")
 
+	DB_MIGRATE = os.Getenv("DB_MIGRATE")
 	DB_TYPE = os.Getenv("DB_TYPE")
 	DB_HOST = os.Getenv("DB_HOST")
 	DB_PORT = os.Getenv("DB_PORT")

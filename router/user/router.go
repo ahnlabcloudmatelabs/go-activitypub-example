@@ -2,15 +2,23 @@ package user
 
 import (
 	"sample/constants"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cache"
 )
 
 func Route(app *fiber.App) {
+	userRouter := app.Group("")
+
+	userRouter.Use(cache.New(cache.Config{
+		Expiration: 5 * time.Minute,
+	}))
+
 	if constants.USER_JSON_ENDPOINT == constants.USER_HTML_ENDPOINT {
-		app.Get(constants.USER_JSON_ENDPOINT, user)
+		userRouter.Get(constants.USER_JSON_ENDPOINT, user)
 	} else {
-		app.Get(constants.USER_JSON_ENDPOINT, userActivityJSON)
-		app.Get(constants.USER_HTML_ENDPOINT, userHTML)
+		userRouter.Get(constants.USER_JSON_ENDPOINT, userActivityJSON)
+		userRouter.Get(constants.USER_HTML_ENDPOINT, userHTML)
 	}
 }

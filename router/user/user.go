@@ -7,6 +7,7 @@ import (
 	"sample/constants"
 	"sample/db"
 	"sample/db/models"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -80,17 +81,52 @@ func userActivityJSON(c *fiber.Ctx) error {
 }
 
 func userHTML(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	user, err := userInformation(id)
+	if err != nil {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
+
 	c.Response().Header.SetContentType("text/html")
-	return c.SendString(`<!DOCTYPE html>
-<html>
+
+	userURL := fmt.Sprintf(constants.USER_JSON_URL_FORMAT, constants.APP_ADDRESS, id)
+
+	return c.SendString(fmt.Sprintf(`<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Sample</title>
+<meta charset="utf-8" />
+	<title>%s</title>
 </head>
 <body>
-	<h1>Sample</h1>
-	<p>Sample</p>
+	<h1>@%s</h1>
+	<ul>
+		<li>created: %s</li>
+		<li>name: %s</li>
+		<li>bio: %s</li>
+		<li>icon: <img src="%s" alt="" height="100" /></li>
+		<li>image: <img src="%s" alt="" height="400" /></li>
+		<li>public key: <br />%s</li>
+		<li>inbox: %s</li>
+		<li>outbox: %s</li>
+		<li>followers: %s</li>
+		<li>following: %s</li>
+	</ul>
 </body>
-</html>`)
+</html>`,
+		user.Profile.Name,
+		user.ID,
+		user.CreatedAt.UTC().String(),
+		user.Profile.Name,
+		*user.Profile.Bio,
+		*user.Profile.Icon,
+		*user.Profile.Image,
+		strings.ReplaceAll(user.KeyPair.PublicKey, "\n", "<br />"),
+		userURL+"/inbox",
+		userURL+"/outbox",
+		userURL+"/followers",
+		userURL+"/following",
+	))
 }
 
 func userInformation(id string) (user models.User, err error) {

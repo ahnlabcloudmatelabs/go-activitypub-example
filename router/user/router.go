@@ -2,6 +2,7 @@ package user
 
 import (
 	"sample/constants"
+	"sample/router/user/inbox"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,4 +22,6 @@ func Route(app *fiber.App) {
 		userRouter.Get(constants.USER_JSON_ENDPOINT, userActivityJSON)
 		userRouter.Get(constants.USER_HTML_ENDPOINT, userHTML)
 	}
+
+	userRouter.Post(constants.USER_JSON_ENDPOINT+"/inbox", inbox.Route)
 }

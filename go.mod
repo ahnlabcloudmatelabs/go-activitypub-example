@@ -5,6 +5,8 @@ go 1.21.3
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/cloudmatelabs/go-activitypub-signature-header v0.0.2 // indirect
+	github.com/cloudmatelabs/go-jsonld-helper v0.0.2 // indirect
+	github.com/go-fed/httpsig v1.1.0 // indirect
 	github.com/gofiber/fiber/v2 v2.50.0 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
@@ -21,6 +23,8 @@ require (
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/microsoft/go-mssqldb v1.6.0 // indirect
 	github.com/philhofer/fwd v1.1.2 // indirect
+	github.com/piprate/json-gold v0.5.0 // indirect
+	github.com/pquerna/cachecontrol v0.0.0-20180517163645-1555304b9b35 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/tinylib/msgp v1.1.8 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect

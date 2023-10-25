@@ -30,6 +30,8 @@ var (
 	USER_JSON_ENDPOINT   = ""
 	USER_HTML_ENDPOINT   = ""
 
+	JSONLD_CACHE_DIR = ""
+
 	ACTIVITY_JSON_CONTENT_TYPE = `application/ld+json; profile="https://www.w3.org/ns/activitystreams"`
 )
 
@@ -64,4 +66,6 @@ func setEnv() {
 	USER_HTML_URL_FORMAT = os.Getenv("USER_HTML_URL_FORMAT")
 	USER_JSON_ENDPOINT = os.Getenv("USER_JSON_ENDPOINT")
 	USER_HTML_ENDPOINT = os.Getenv("USER_HTML_ENDPOINT")
+
+	JSONLD_CACHE_DIR = os.Getenv("JSONLD_CACHE_DIR")
 }

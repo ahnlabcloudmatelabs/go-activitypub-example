@@ -28,6 +28,10 @@ func Route(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
+	if messageType == "Follow" {
+		followAccept(originBody, id, actor)
+	}
+
 	db.DB.Save(&models.UserInbox{
 		ID:      uuid.New(),
 		From:    actor,

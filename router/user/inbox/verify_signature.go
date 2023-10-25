@@ -75,7 +75,7 @@ func fetchActorPublicKey(actor string) (string, error) {
 	agent.Request().Header.Set("Accept", "application/ld+json")
 
 	statusCode, response, errs := agent.Bytes()
-	if errs != nil {
+	if len(errs) > 0 {
 		return "", errs[0]
 	}
 

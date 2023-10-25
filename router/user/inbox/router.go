@@ -20,7 +20,7 @@ func Route(c *fiber.Ctx) error {
 	originBody, localCachedBody := useContextCache(c.Body())
 	actor, messageType, err := getActorAndType(localCachedBody)
 	if err != nil {
-		return c.SendStatus(fiber.StatusBadRequest)
+		return c.SendStatus(fiber.StatusNotAcceptable)
 	}
 
 	verify, err := verifySignature(c, actor)

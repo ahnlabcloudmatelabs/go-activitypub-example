@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"sample/constants"
+	"sample/db"
+	"sample/db/models"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -19,6 +21,12 @@ func user(c *fiber.Ctx) error {
 
 func userActivityJSON(c *fiber.Ctx) error {
 	id := c.Params("id")
+
+	user, err := userInformation(id)
+	if err != nil {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
+
 	userURL := fmt.Sprintf(constants.USER_JSON_URL_FORMAT, constants.APP_ADDRESS, id)
 
 	response := fiber.Map{
@@ -38,22 +46,31 @@ func userActivityJSON(c *fiber.Ctx) error {
 			"sharedInbox": constants.APP_ADDRESS + "/inbox",
 		},
 		"preferredUsername": id,
-		"name":              "",
-		"summary":           "",
-		"icon": fiber.Map{
-			"type": "Image",
-			"url":  "",
-		},
-		"image": fiber.Map{
-			"type": "Image",
-			"url":  "",
-		},
+		"name":              user.Profile.Name,
 		"publicKey": fiber.Map{
 			"id":           userURL + "#main-key",
 			"type":         "Key",
 			"owner":        userURL,
-			"publicKeyPem": "",
+			"publicKeyPem": user.KeyPair.PublicKey,
 		},
+	}
+
+	if user.Profile.Bio != nil {
+		response["summary"] = *user.Profile.Bio
+	}
+
+	if user.Profile.Image != nil {
+		response["image"] = fiber.Map{
+			"type": "Image",
+			"url":  *user.Profile.Image,
+		}
+	}
+
+	if user.Profile.Icon != nil {
+		response["icon"] = fiber.Map{
+			"type": "Image",
+			"url":  *user.Profile.Icon,
+		}
 	}
 
 	responseBytes, _ := json.Marshal(response)
@@ -74,4 +91,9 @@ func userHTML(c *fiber.Ctx) error {
 	<p>Sample</p>
 </body>
 </html>`)
+}
+
+func userInformation(id string) (user models.User, err error) {
+	err = db.DB.Preload("Profile").Preload("KeyPair").Where("id = ?", id).First(&user).Error
+	return
 }

@@ -6,7 +6,7 @@ import (
 	"os"
 	"sample/constants"
 	"sample/db"
-	"sample/db/models"
+	"sample/models"
 
 	signature_header "github.com/cloudmatelabs/go-activitypub-signature-header"
 )

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"sample/constants"
 	"sample/db"
-	"sample/db/models"
+	"sample/models"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"

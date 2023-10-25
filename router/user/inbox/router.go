@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"sample/db"
-	"sample/db/models"
+	"sample/models"
 	"strings"
 
 	jsonld_helper "github.com/cloudmatelabs/go-jsonld-helper"
@@ -20,7 +20,7 @@ import (
 func Route(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	if !userExists(id) {
+	if !(models.User{ID: id}.Exists()) {
 		return c.SendStatus(fiber.StatusNotFound)
 	}
 
@@ -59,12 +59,6 @@ func Route(c *fiber.Ctx) error {
 	})
 
 	return c.SendStatus(fiber.StatusAccepted)
-}
-
-func userExists(id string) bool {
-	var count int64
-	db.DB.Model(&models.User{}).Where("id = ?", id).Count(&count)
-	return count > 0
 }
 
 func useContextCache(body []byte) (origin []byte, cached []byte) {

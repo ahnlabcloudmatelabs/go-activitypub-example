@@ -3,6 +3,7 @@ package main
 import (
 	"sample/constants"
 	"sample/db"
+	"sample/models"
 	"sample/router"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,7 +13,7 @@ func main() {
 	constants.LoadEnv()
 	db.Connect()
 	if constants.DB_MIGRATE == "true" {
-		db.Migrate()
+		models.Migrate()
 	}
 
 	app := fiber.New()

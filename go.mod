@@ -4,6 +4,7 @@ go 1.21.3
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
+	github.com/cloudmatelabs/go-activitypub-signature-header v0.0.2 // indirect
 	github.com/gofiber/fiber/v2 v2.50.0 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect

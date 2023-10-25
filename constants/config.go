@@ -26,6 +26,10 @@ var (
 
 	USER_JSON_URL_FORMAT = ""
 	USER_HTML_URL_FORMAT = ""
+	USER_JSON_ENDPOINT   = ""
+	USER_HTML_ENDPOINT   = ""
+
+	ACTIVITY_JSON_CONTENT_TYPE = `application/ld+json; profile="https://www.w3.org/ns/activitystreams"`
 )
 
 func LoadEnv() {
@@ -56,4 +60,6 @@ func setEnv() {
 
 	USER_JSON_URL_FORMAT = os.Getenv("USER_JSON_URL_FORMAT")
 	USER_HTML_URL_FORMAT = os.Getenv("USER_HTML_URL_FORMAT")
+	USER_JSON_ENDPOINT = os.Getenv("USER_JSON_ENDPOINT")
+	USER_HTML_ENDPOINT = os.Getenv("USER_HTML_ENDPOINT")
 }

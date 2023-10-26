@@ -69,6 +69,11 @@ func Route(c *fiber.Ctx) error {
 
 	if messageType == "Follow" {
 		followAccept(localCachedBody, id, actor)
+
+		db.DB.Create(&models.UserFollower{
+			ID:       id,
+			Follower: actor,
+		})
 	}
 
 	return c.SendStatus(fiber.StatusAccepted)

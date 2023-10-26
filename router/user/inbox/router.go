@@ -5,6 +5,7 @@ import (
 	"sample/db"
 	"sample/models"
 
+	signature_header "github.com/cloudmatelabs/go-activitypub-signature-header"
 	jsonld_helper "github.com/cloudmatelabs/go-jsonld-helper"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -17,19 +18,24 @@ func Route(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusNotFound)
 	}
 
-	originBody, localCachedBody := useContextCache(c.Body())
+	localCachedBody := useContextCache(c.Body())
 	actor, messageType, err := getActorAndType(localCachedBody)
 	if err != nil {
 		return c.SendStatus(fiber.StatusNotAcceptable)
 	}
 
-	verify, err := verifySignature(c, actor)
-	if err != nil || !verify {
-		return c.SendStatus(fiber.StatusBadRequest)
-	}
+	headers := map[string]string{}
+	c.Request().Header.VisitAll(func(key, value []byte) {
+		headers[string(key)] = string(value)
+	})
 
-	if messageType == "Follow" {
-		followAccept(originBody, id, actor)
+	verifier := signature_header.Verifier{
+		Method:  c.Method(),
+		URL:     c.BaseURL() + c.OriginalURL(),
+		Headers: headers,
+	}
+	if err := verifier.VerifyWithActor(actor); err != nil {
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
 	db.DB.Save(&models.UserInbox{
@@ -37,14 +43,17 @@ func Route(c *fiber.Ctx) error {
 		From:    actor,
 		To:      id,
 		Type:    messageType,
-		Content: string(originBody),
+		Content: string(c.Body()),
 	})
+
+	if messageType == "Follow" {
+		followAccept(localCachedBody, id, actor)
+	}
 
 	return c.SendStatus(fiber.StatusAccepted)
 }
 
-func useContextCache(body []byte) (origin []byte, cached []byte) {
-	origin = body
+func useContextCache(body []byte) (cached []byte) {
 	cached = bytes.Replace(
 		bytes.Replace(
 			body,

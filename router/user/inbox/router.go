@@ -1,8 +1,8 @@
 package inbox
 
 import (
-	"bytes"
 	"sample/db"
+	"sample/jsonld"
 	"sample/models"
 
 	signature_header "github.com/cloudmatelabs/go-activitypub-signature-header"
@@ -18,7 +18,7 @@ func Route(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusNotFound)
 	}
 
-	localCachedBody := useContextCache(c.Body())
+	localCachedBody := jsonld.UseContextCache(c.Body())
 	actor, messageType, err := getActorAndType(localCachedBody)
 	if err != nil {
 		return c.SendStatus(fiber.StatusNotAcceptable)
@@ -72,21 +72,6 @@ func Route(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(fiber.StatusAccepted)
-}
-
-func useContextCache(body []byte) (cached []byte) {
-	cached = bytes.Replace(
-		bytes.Replace(
-			body,
-			[]byte("https://www.w3.org/ns/activitystreams"),
-			[]byte("jsonld/activitystreams.json"),
-			1,
-		),
-		[]byte("https://w3id.org/security/v1"),
-		[]byte("jsonld/security.json"),
-		1,
-	)
-	return
 }
 
 func getActorAndType(body []byte) (actor string, messageType string, err error) {

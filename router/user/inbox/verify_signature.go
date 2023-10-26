@@ -1,6 +1,8 @@
 package inbox
 
 import (
+	"sample/jsonld"
+
 	signature_header "github.com/cloudmatelabs/go-activitypub-signature-header"
 	jsonld_helper "github.com/cloudmatelabs/go-jsonld-helper"
 	"github.com/gofiber/fiber/v2"
@@ -26,17 +28,17 @@ func fetchPublicKey(actor string) (string, string, error) {
 		return "", "", errs[0]
 	}
 
-	localCachedBody := useContextCache(body)
+	localCachedBody := jsonld.UseContextCache(body)
 
-	jsonld, err := jsonld_helper.ParseJsonLD(localCachedBody, nil)
+	ld, err := jsonld_helper.ParseJsonLD(localCachedBody, nil)
 	if err != nil {
 		return "", "", err
 	}
 
-	keyID, err := jsonld.ReadKey("publicKey").ReadKey("id").StringOrThrow(nil)
+	keyID, err := ld.ReadKey("publicKey").ReadKey("id").StringOrThrow(nil)
 	if err != nil {
 		return "", "", err
 	}
-	publicKey, err := jsonld.ReadKey("publicKey").ReadKey("publicKeyPem").StringOrThrow(nil)
+	publicKey, err := ld.ReadKey("publicKey").ReadKey("publicKeyPem").StringOrThrow(nil)
 	return keyID, publicKey, err
 }

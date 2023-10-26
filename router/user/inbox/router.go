@@ -29,12 +29,33 @@ func Route(c *fiber.Ctx) error {
 		headers[string(key)] = string(value)
 	})
 
+	keyID := getKeyID(c)
+	if keyID == "" {
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	remoteUserPublicKey := &models.RemoteUserPublicKey{ID: keyID}
+	if err := remoteUserPublicKey.GetByID(); err != nil {
+
+		keyID, publicKey, err := fetchPublicKey(actor)
+		if err != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
+
+		remoteUserPublicKey = &models.RemoteUserPublicKey{
+			ID:        keyID,
+			PublicKey: publicKey,
+		}
+
+		db.DB.Save(remoteUserPublicKey)
+	}
+
 	verifier := signature_header.Verifier{
 		Method:  c.Method(),
 		URL:     c.BaseURL() + c.OriginalURL(),
 		Headers: headers,
 	}
-	if err := verifier.VerifyWithActor(actor); err != nil {
+	if err := verifier.VerifyWithPublicKeyStr(remoteUserPublicKey.PublicKey); err != nil {
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 

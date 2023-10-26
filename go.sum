@@ -20,6 +20,8 @@ github.com/andybalholm/brotli v1.0.5 h1:8uQZIdzKmjc/iuPu7O2ioW48L81FgatrcpfFmiq/
 github.com/andybalholm/brotli v1.0.5/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/cloudmatelabs/go-activitypub-signature-header v0.1.0 h1:fFuMFtnWsrUPuDg2WeWEunWTiWL+RcqpbQFpmvmD9+Y=
 github.com/cloudmatelabs/go-activitypub-signature-header v0.1.0/go.mod h1:PwyYh+D9Nwbd6vZs4Fu428G1/HetgiKKjocwoTxiDxk=
+github.com/cloudmatelabs/go-activitypub-signature-header v0.1.1 h1:MliBM6Ue/KK6Uu2M/a8qsM4j/OKj/O7S/PJRgDNjNkY=
+github.com/cloudmatelabs/go-activitypub-signature-header v0.1.1/go.mod h1:PwyYh+D9Nwbd6vZs4Fu428G1/HetgiKKjocwoTxiDxk=
 github.com/cloudmatelabs/go-jsonld-helper v0.0.2 h1:nVKR1bfpW4F6hUZwWvFdAE0W7e7mewLPxPssQ5M4k8k=
 github.com/cloudmatelabs/go-jsonld-helper v0.0.2/go.mod h1:NrvLr7NuZX60USOVLVdw3ckUBobvK4QPsgWVfaTRDos=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

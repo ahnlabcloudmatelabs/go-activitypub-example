@@ -3,7 +3,7 @@ module sample
 go 1.21.3
 
 require (
-	github.com/cloudmatelabs/go-activitypub-signature-header v0.1.0
+	github.com/cloudmatelabs/go-activitypub-signature-header v0.1.1
 	github.com/cloudmatelabs/go-jsonld-helper v0.0.2
 	github.com/go-fed/httpsig v1.1.0
 	github.com/gofiber/fiber/v2 v2.50.0

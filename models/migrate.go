@@ -8,5 +8,6 @@ func Migrate() {
 		&UserProfile{},
 		&UserKeyPair{},
 		&UserInbox{},
+		&RemoteUserPublicKey{},
 	)
 }

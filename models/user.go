@@ -8,12 +8,14 @@ import (
 )
 
 type User struct {
-	ID        string      `gorm:"primaryKey"`
-	Profile   UserProfile `gorm:"foreignKey:ID;constraint:OnDelete:CASCADE;"`
-	KeyPair   UserKeyPair `gorm:"foreignKey:ID;constraint:OnDelete:CASCADE;"`
-	Inbox     UserInbox   `gorm:"foreignKey:To;constraint:OnDelete:CASCADE;"`
-	CreatedAt time.Time
-	DeletedAt gorm.DeletedAt
+	ID         string `gorm:"primaryKey"`
+	CreatedAt  time.Time
+	DeletedAt  gorm.DeletedAt
+	Profile    UserProfile     `gorm:"foreignKey:ID;constraint:OnDelete:CASCADE;"`
+	KeyPair    UserKeyPair     `gorm:"foreignKey:ID;constraint:OnDelete:CASCADE;"`
+	Inbox      UserInbox       `gorm:"foreignKey:To;constraint:OnDelete:CASCADE;"`
+	Followers  []UserFollower  `gorm:"foreignKey:ID;constraint:OnDelete:CASCADE;"`
+	Followings []UserFollowing `gorm:"foreignKey:ID;constraint:OnDelete:CASCADE;"`
 }
 
 func (u User) Exists() bool {

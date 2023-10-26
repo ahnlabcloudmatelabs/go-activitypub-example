@@ -9,5 +9,7 @@ func Migrate() {
 		&UserKeyPair{},
 		&UserInbox{},
 		&RemoteUserPublicKey{},
+		&UserFollower{},
+		&UserFollowing{},
 	)
 }

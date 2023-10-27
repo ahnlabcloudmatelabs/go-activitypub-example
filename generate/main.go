@@ -8,7 +8,9 @@ import (
 func main() {
 	funcPtr := flag.String("function", "", "")
 	followTargetPtr := flag.String("followTarget", "", "")
+	followerTargetPtr := flag.String("followerTarget", "", "")
 	followTargetInboxURLPtr := flag.String("followTargetInboxURL", "", "")
+	followerTargetInboxURLPtr := flag.String("followTargetInboxURL", "", "")
 	idPtr := flag.String("id", "", "")
 	namePtr := flag.String("name", "", "")
 	bioPtr := flag.String("bio", "", "")
@@ -24,5 +26,13 @@ func main() {
 
 	if *funcPtr == "follow" {
 		funcs.Follow(idPtr, followTargetPtr, followTargetInboxURLPtr)
+	}
+
+	if *funcPtr == "unfollow" {
+		funcs.UnFollow(idPtr, followTargetPtr, followTargetInboxURLPtr)
+	}
+
+	if *funcPtr == "deleteFollower" {
+		funcs.DeleteFollower(idPtr, followerTargetPtr, followerTargetInboxURLPtr)
 	}
 }
